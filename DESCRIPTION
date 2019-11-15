@@ -1,0 +1,22 @@
+Package: beter
+Title: BEAST Templates in R
+Version: 0.0.1
+Authors@R: 
+    person(
+        given = "Jiří",
+        family = "Moravec",
+        role = c("aut", "cre"),
+        email = "jiri.c.moravec@gmail.com"
+        )
+Description: Create BEAST2 XML files from individual XML chunks using {{ moustache }} templating system and TOML configuration files.
+License: What license it uses
+Encoding: UTF-8
+LazyData: true
+Imports:
+    RcppTOML,
+    whisker,
+    rlist,
+    stringr,
+Suggests:
+    ape,
+    testthat,
