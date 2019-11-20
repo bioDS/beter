@@ -9,10 +9,10 @@
 #' find_tags("Foo bar {{baz}}")
 find_tags = function(template){
     if(!file.exists(template))
-        return(find_tags_str(template)
-    if(tolower(file_ext(template)) == "toml")
-        return(find_tags_toml(template)
-    if(tolower(file_ext(template)) == "xml")
+        return(find_tags_str(template))
+    if(tolower(tools::file_ext(template)) == "toml")
+        return(find_tags_toml(template))
+    if(tolower(tools::file_ext(template)) == "xml")
         return(find_tags_xml(template))
     stop("Unrecognized file extension")
     }
@@ -25,7 +25,7 @@ find_tags_xml = function(template){
 
 #' @rdname find_tags
 find_tags_toml = function(template){
-    template = RcppTOML::parseTOML(template)
+    template = RcppTOML::parseTOML(template)$xml
     find_tags_str(template)
     }
 

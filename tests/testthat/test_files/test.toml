@@ -1,0 +1,3 @@
+[xml]
+test = "foo bar {{baz}}"
+test2 = "{{foo}} bar baz"
