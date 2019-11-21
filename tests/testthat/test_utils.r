@@ -4,10 +4,13 @@ context("Test utils.r")
 test_that("Can find {{ mustache }} tags", {
     test_toml = file.path("test_files", "test.toml")
     test_xml = file.path("test_files", "test.xml")
+    test_other = tempfile(fileext=".other")
+    cat("I live AGAIN!", file=test_other)
 
     expect_equal(find_tags("foo bar {{baz}}"), "baz")
     expect_equal(find_tags(test_toml), c("baz", "foo"))
     expect_equal(find_tags(test_xml), c("foo", "bar", "baz"))
+    expect_error(find_tags(test_other))
     })
 
 
