@@ -1,10 +1,17 @@
-#' Find {{ moustache }} tags in a file or text.
-#' \code{find_tags_str} will find tags in a string. \code{find_tags_xml} and \code{find_tags_toml}
-#' will find tags in a file after using an apropriate way to read it. Finally, \code{find_tags}
-#' will call above mentioned functions depending on its input.
+#' Find {{ moustache }} tags.
 #'
-#' @param template String that represents path to xml or toml file or text that contain tags
+#' Find {{ moustache }} tags in a string or file. \code{find_tags_str} will find tags in a string.
+#' \code{find_tags_xml} and \code{find_tags_toml} will find tags in a file after using
+#' an apropriate way to read it. Finally, \code{find_tags} will call above mentioned functions
+#' depending on its input.
+#'
+#' @param template String that represents path to xml, toml file or text that contain tags.
+#' For the \code{find_tags} function, if the string is a path to an existing file, first read as
+#' using the TOML parser or as a plain text depending if the extension of file is \code{.toml}
+#' or \code{.xml}.
+#'
 #' @return list of {{ moustache }} tags
+#' @export
 #' @examples
 #' find_tags("Foo bar {{baz}}")
 find_tags = function(template){
@@ -43,10 +50,11 @@ find_tags_str = function(template){
 #' Temporarily set a path to a specific directory. Path is restored once
 #' the calling function/frame ends.
 #' @param dir directory
-#'
+#' @export
+#' @examples
 #' dir = tempdir()
 #' test = function(){
-#'     settmpwd(dir)
+#'     settmpdir(dir)
 #'     print(getwd())
 #'     }
 #' test() # should print dir
@@ -62,8 +70,9 @@ settmpdir = function(dir){
 #' An utility function with an effect similar to Unix mkdir -p.
 #' Recursively create directory. If directory exists, do nothing.
 #'
-#' @param dir
-#'
+#' @param dir directory
+#' @export
+#' @examples
 #' tmpdir = tempdir()
 #' mkdir(tmpdir) # dir already exists, no error or warning is reported
 mkdir = function(dir){
