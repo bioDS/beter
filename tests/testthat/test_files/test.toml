@@ -1,3 +1,8 @@
 [xml]
 test = "foo bar {{baz}}"
 test2 = "{{foo}} bar baz"
+
+[defaults]
+foo = "1"
+bar = "2"
+baz = ["1", "2"]
