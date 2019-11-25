@@ -79,3 +79,21 @@ mkdir = function(dir){
     if(!dir.exists(dir))
         dir.create(dir, recursive=TRUE)
     }
+
+
+#' join strings
+#'
+#' Similar as paste, but ignores NULL, NA and empty strings.
+#'
+#' @param ... one or more R objects, to be converted to character vectors.
+#' @param sep a a character string to separate the terms.  Not "NA_character_".
+#' @param collapse: an optional character string to separate the results.  Not "NA_character_".
+join = function(..., sep=" ", collapse=NULL){
+    args = list(...)
+    args = rlist::list.clean(
+        args,
+        fun=function(x) is.null(x) || is.na(x) || x == "",
+        recursive=TRUE
+        )
+    do.call(paste, args=c(args, sep=sep, collapse=collapse))
+    }

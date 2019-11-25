@@ -60,11 +60,3 @@ test_that("Test non-additive merge with a non-list argument", {
     expect_error(merge(matrix(), list()))
     expect_error(merge(c(), new.env()))
     })
-
-
-
-test_that("Can distinguish empty and non-empty list", {
-    expect_true(is.empty(list()))
-    expect_true(is.empty(NULL))
-    expect_false(is.empty(list1))
-    })

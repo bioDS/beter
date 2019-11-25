@@ -36,3 +36,14 @@ test_that("test mkdir is silently creating path", {
     expect_silent(mkdir(test_dir))
     unlink(test_dir, recursive=TRUE)
     })
+
+
+test_that("joining text ignores empty symbols", {
+    expect_equal(join(NULL, "foo"), "foo")
+    expect_equal(join("foo", NULL), "foo")
+    expect_equal(join(NA, "foo"), "foo")
+    expect_equal(join("foo", NA), "foo")
+    expect_equal(join("", "foo"), "foo")
+    expect_equal(join("foo", ""), "foo")
+    expect_equal(join("foo", "foo"), paste("foo", "foo"))
+    })

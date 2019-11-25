@@ -37,12 +37,3 @@ add = function(list1, list2){
     names(merged) = names
     merged
     }
-
-
-#' Test whether list is null or empty
-#'
-#' @param x a list
-#' @return true/false
-is.empty = function(x){
-    is.null(x) || length(x) == 0
-    }
