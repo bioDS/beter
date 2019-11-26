@@ -38,6 +38,10 @@ write_config = function(x, file){
 #'     specified
 #' @return a string vector representing individual lines of TOML representation of \code{x}.
 list2toml = function(x, parent_name=NULL){
+    # check against empty list:
+    if(length(x) == 0){
+        return("")
+        }
     # process those that are not lists:
     items = x[sapply(x, Negate(is.list))]
     item_lines = unlist(mapply(process_item, names(items), items, USE.NAMES=FALSE))

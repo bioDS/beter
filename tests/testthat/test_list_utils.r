@@ -17,6 +17,14 @@ test_that("Can sort structured named list:", {
     })
 
 
+test_that("Can sort structured named list with an empty list:", {
+    list1 = list("a"=1, "b"=list())
+    list2 = list("b"=list(), "a"=1)
+
+    expect_equal(list1, sort_named_list(list2))
+    })
+
+
 test_that("fails when item is not list:", {
     expect_error(sort_named_list(1))
     expect_error(sort_named_list(c("a"=1,"b"=2)))

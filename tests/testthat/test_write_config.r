@@ -5,9 +5,7 @@ config = list(
         first_chunk = "First XML chunk",
         second_chunk = "Second XML chunk"
         ),
-    "templates" = list(
-        first_subtemplate = "First subtemplate"
-        ),
+    "templates" = list(),
     "defaults" = list(
         third_parameter = list(
             first = 1,
@@ -25,7 +23,6 @@ test_that("Can parse list and produce TOML structure", {
         "second_chunk = \"Second XML chunk\"",
         "",
         "[templates]",
-        "first_subtemplate = \"First subtemplate\"",
         "",
         "[defaults]",
         "first_parameter = \"one\"",
