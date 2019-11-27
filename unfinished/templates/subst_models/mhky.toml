@@ -1,0 +1,66 @@
+[xml]
+substitution_model = """
+<substModel spec='MethylationHKY' id='MethylationHKY'>
+    <kappa idref='kappa'/>
+    <alpha idref='alpha'/>
+    <beta idref='beta'/>
+    <gamma idref='gamma'/>
+</substModel>
+"""
+
+logs = """
+<log idref='kappa'/>
+<log idref='alpha'/>
+<log idref='beta'/>
+<log idref='gamma'/>
+"""
+
+operators = """
+<operator id='kappaScaler' spec='ScaleOperator' scaleFactor="0.5" weight="1" parameter="@kappa"/>
+<operator id='alphaScaler' spec='ScaleOperator' scaleFactor="0.5" weight="1" parameter="@alpha"/>
+<operator id='betaScaler' spec='ScaleOperator' scaleFactor="0.5" weight="1" parameter="@beta"/>
+<operator id='gammaScaler' spec='ScaleOperator' scaleFactor="0.5" weight="1" parameter="@gamma"/>
+"""
+
+parameters = """
+<parameter id="kappa" value="{{kappa}}" lower="0.0" name="stateNode"/>
+<parameter id="alpha" value="{{alpha}}" lower="0.0" name="stateNode"/>
+<parameter id="beta" value="{{beta}}" lower="0.0" name="stateNode"/>
+<parameter id="gamma" value="{{gamma}}" lower="0.0" name="stateNode"/>
+"""
+
+priors = """
+<prior id="MethylationHKY.kappa.prior" name="distribution" x="@kappa">
+    <Gamma id="MHKYGamma.0" name="distr">
+        <parameter id="MHKYRealParameter.1" spec="parameter.RealParameter" estimate="false" name="alpha">1</parameter>
+        <parameter id="RealParameter.2" spec="parameter.RealParameter" estimate="false" name="beta">10.0</parameter>
+    </Gamma>
+</prior>
+            
+<prior id="MethylationHKY.alpha.prior" name="distribution" x="@alpha">
+    <Gamma id="MHKYGamma.1" name="distr">
+        <parameter id="MHKYRealParameter.3" spec="parameter.RealParameter" estimate="false" name="alpha">1</parameter>
+        <parameter id="MHKYRealParameter.4" spec="parameter.RealParameter" estimate="false" name="beta">10.0</parameter>
+    </Gamma>
+</prior>
+            
+<prior id="MethylationHKY.beta.prior" name="distribution" x="@beta">
+    <Gamma id="MHKYGamma.2" name="distr">
+        <parameter id="MHKYRealParameter.5" spec="parameter.RealParameter" estimate="false" name="alpha">1</parameter>
+        <parameter id="MHKYRealParameter.6" spec="parameter.RealParameter" estimate="false" name="beta">10.0</parameter>
+    </Gamma>
+</prior>
+
+<prior id="MethylationHKY.gamma.prior" name="distribution" x="@gamma">        
+    <Gamma id="MHKYGamma.3" name="distr">
+        <parameter id="MHKYRealParameter.7" spec="parameter.RealParameter" estimate="false" name="alpha">1</parameter>
+        <parameter id="MHKYRealParameter.8" spec="parameter.RealParameter" estimate="false" name="beta">10.0</parameter>
+    </Gamma>
+</prior>
+"""
+
+[defaults]
+kappa = 1
+alpha = 0.01
+beta = 1
+gamma = 0.01

@@ -1,0 +1,36 @@
+[xml]
+population_model = """
+<distribution id="CoalescentConstant.t:tree" spec="Coalescent">
+    <populationModel id="ConstantPopulation.t:tree" spec="ConstantPopulation" popSize="@popSize.t:tree"/>
+    <treeIntervals id="TreeIntervals.t:tree" spec="TreeIntervals" tree="@Tree.t:simulated"/>
+</distribution>
+"""
+
+logs = """
+<log idref="popSize.t:tree"/>
+<log idref="CoalescentConstant.t:tree"/>
+"""
+
+operators = """
+<operator id="CoalescentConstantTreeScaler.t:tree" spec="ScaleOperator" scaleFactor="0.5" tree="@Tree.t:simulated" weight="3.0"/>
+<operator id="CoalescentConstantTreeRootScaler.t:tree" spec="ScaleOperator" rootOnly="true" scaleFactor="0.5" tree="@Tree.t:simulated" weight="3.0"/>
+<operator id="CoalescentConstantUniformOperator.t:tree" spec="Uniform" tree="@Tree.t:simulated" weight="30.0"/>
+<operator id="CoalescentConstantSubtreeSlide.t:tree" spec="SubtreeSlide" tree="@Tree.t:simulated" weight="15.0"/>
+<operator id="CoalescentConstantNarrow.t:tree" spec="Exchange" tree="@Tree.t:simulated" weight="15.0"/>
+<operator id="CoalescentConstantWide.t:tree" spec="Exchange" isNarrow="false" tree="@Tree.t:simulated" weight="3.0"/>
+<operator id="CoalescentConstantWilsonBalding.t:tree" spec="WilsonBalding" tree="@Tree.t:simulated" weight="3.0"/>
+<operator id="PopSizeScaler.t:tree" spec="ScaleOperator" parameter="@popSize.t:tree" scaleFactor="0.75" weight="3.0"/>
+"""
+
+parameters = """
+<parameter id="popSize.t:tree" spec="parameter.RealParameter" name="stateNode">{{popSize}}</parameter>
+"""
+
+priors = """
+<prior id="PopSizePrior.t:tree" name="distribution" x="@popSize.t:tree">
+    <OneOnX id="OneOnX.1" name="distr"/>
+</prior>
+"""
+
+[defaults]
+popSize = 0.03

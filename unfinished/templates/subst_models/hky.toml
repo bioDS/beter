@@ -1,0 +1,40 @@
+[xml]
+substitution_model = """
+<substModel id="hky.s:simulated" spec="HKY" kappa="@kappa.s:simulated">
+    <frequencies id="estimatedFreqs.s:simulated" spec="Frequencies" frequencies="@freqParameter.s:simulated"/>
+</substModel>
+"""
+
+logs = """
+<log idref="kappa.s:simulated"/>
+<log idref="freqParameter.s:simulated"/>
+"""
+
+operators = """
+<operator id="FrequenciesExchanger.s:simulated" spec="DeltaExchangeOperator" delta="0.01" weight="0.1">
+    <parameter idref="freqParameter.s:simulated"/>
+</operator>
+<operator id="KappaScaler.s:simulated" spec="ScaleOperator" parameter="@kappa.s:simulated" scaleFactor="0.5" weight="0.1"/>
+"""
+
+parameters = """
+<parameter id="kappa.s:simulated" spec="parameter.RealParameter" lower="0.0" name="stateNode">{{kappa}}</parameter>
+<parameter id="freqParameter.s:simulated" spec="parameter.RealParameter" dimension="4" lower="0.0" name="stateNode" upper="1.0">{{#freqParameter}} {{.}}{{/freqParameter}}</parameter>
+"""
+
+priors = """
+<prior id="FrequenciesPrior.s:simulated" name="distribution" x="@freqParameter.s:simulated">
+    <Uniform id="Uniform.3" name="distr"/> 
+</prior>
+            
+<prior id="KappaPrior.s:simulated" name="distribution" x="@kappa.s:simulated">
+    <LogNormal id="LogNormalDistributionModel.0" name="distr">
+        <parameter id="RealParameter.1" spec="parameter.RealParameter" estimate="false" name="M">1.0</parameter>
+        <parameter id="RealParameter.2" spec="parameter.RealParameter" estimate="false" name="S">1.25</parameter>
+    </LogNormal>
+</prior>
+"""
+
+[defaults]
+kappa = 2
+freqParameter = 0.25

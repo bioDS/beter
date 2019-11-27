@@ -1,0 +1,7 @@
+<branchRateModel id="RelaxedClock.c:clock" spec="beast.evolution.branchratemodel.UCRelaxedClockModel" numberOfDiscreteRates="10" rateCategories="@rateCategories.c:clock" tree="@Tree.t:tree">
+    <LogNormal id="LogNormalDistributionModel.c:clock" meanInRealSpace="true" name="distr">
+        <parameter id="ucldM" spec="parameter.RealParameter" estimate="false" lower="0.0" name="M" upper="1.0">1.0</parameter>
+    <parameter id="ucldStdev.c:clock" spec="parameter.RealParameter" name="S" lower="0.0">0.1</parameter>
+    </LogNormal>
+    <parameter id="ucldMean.c:clock" spec="parameter.RealParameter" estimate="false" name="clock.rate">1.0</parameter>
+</branchRateModel>

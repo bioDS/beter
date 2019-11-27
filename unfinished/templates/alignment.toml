@@ -1,0 +1,12 @@
+[xml]
+alignment = """
+<data id="simulated" dataType="{{datatype}}">
+    {{#taxa}}
+    <sequence taxon="{{.}}">?</sequence>
+    {{/taxa}}
+</data>
+"""
+
+[defaults]
+taxa = [1, 2, 3, 4, 5]
+datatype = "nucleotide"

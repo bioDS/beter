@@ -1,0 +1,26 @@
+<beast version="2.0"
+       namespace="beast.evolution.alignment:beast.core:beast.evolution.tree.coalescent:beast.core.util:beast.evolution.nuc:beast.evolution.operators:beast.evolution.sitemodel:beast.evolution.substitutionmodel:beast.evolution.likelihood">
+
+{{{alignment}}}
+
+
+{{#parameters}}
+{{{.}}}
+{{/parameters}}
+
+    <tree id="tree" spec="beast.util.TreeParser" IsLabelledNewick="true" newick="{{tree}}" taxa="@simulated"/>
+
+
+    <run spec="beast.app.seqgen.SequenceSimulator" id="seqgen" data="@simulated" tree="@tree" sequencelength="{{seqlength}}">
+        <merge spec="beast.app.seqgen.MergeDataWith" template="{{mergewith}}" output="{{output}}"/>
+	    <siteModel spec="SiteModel" id="siteModel" gammaCategoryCount="1">
+
+{{{substitution_model}}}
+
+        </siteModel>
+
+{{{clock_model}}}
+
+	</run>
+</beast>
+

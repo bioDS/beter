@@ -1,0 +1,8 @@
+[xml]
+clock_model = """
+<branchRateModel id="StrictClock.c:clock" spec="beast.evolution.branchratemodel.StrictClockModel">       
+    <parameter id="clockRate.c:clock" spec="parameter.RealParameter" estimate="false" name="clock.rate">1.0</parameter>
+</branchRateModel>
+"""
+
+[defaults]

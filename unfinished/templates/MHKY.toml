@@ -1,0 +1,15 @@
+[xml]
+
+[templates]
+alignment = "alignment.toml"
+substitution_model = "subst_models/mhky.toml"
+population_model = "pop_models/constant.toml"
+clock_model = "clock_models/strict.toml"
+
+[defaults]
+chain_length = 10000000
+log_every = 1000
+sample_from_prior = false
+nseq = 20
+seqlength = 5000
+datatype = "NucleotideMethylation"
