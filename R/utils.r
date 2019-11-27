@@ -9,9 +9,10 @@
 #' For the \code{find_tags} function, if the string is a path to an existing file, first read as
 #' using the TOML parser or as a plain text depending if the extension of file is \code{.toml}
 #' or \code{.xml}.
-#'
 #' @return list of {{ moustache }} tags
+#'
 #' @export
+#'
 #' @examples
 #' find_tags("Foo bar {{baz}}")
 find_tags = function(template){
@@ -50,11 +51,11 @@ find_tags_str = function(template){
 #' Temporarily set a path to a specific directory. Path is restored once
 #' the calling function/frame ends.
 #' @param dir directory
-#' @export
+#'
 #' @examples
 #' dir = tempdir()
 #' test = function(){
-#'     settmpdir(dir)
+#'     beter:::settmpdir(dir)
 #'     print(getwd())
 #'     }
 #' test() # should print dir
@@ -71,10 +72,10 @@ settmpdir = function(dir){
 #' Recursively create directory. If directory exists, do nothing.
 #'
 #' @param dir directory
-#' @export
+#'
 #' @examples
 #' tmpdir = tempdir()
-#' mkdir(tmpdir) # dir already exists, no error or warning is reported
+#' beter:::mkdir(tmpdir) # dir already exists, no error or warning is reported
 mkdir = function(dir){
     if(!dir.exists(dir))
         dir.create(dir, recursive=TRUE)
@@ -87,7 +88,11 @@ mkdir = function(dir){
 #'
 #' @param ... one or more R objects, to be converted to character vectors.
 #' @param sep a a character string to separate the terms.  Not "NA_character_".
-#' @param collapse: an optional character string to separate the results.  Not "NA_character_".
+#' @param collapse an optional character string to separate the results.  Not "NA_character_".
+#' @return a character vector of the concatenated values. See \code{\link{paste}}.
+#'
+#' @examples
+#' beter:::join("foo", NULL, NA, "", "bar") # "foo bar"
 join = function(..., sep=" ", collapse=NULL){
     args = list(...)
     args = rlist::list.clean(

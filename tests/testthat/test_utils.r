@@ -1,4 +1,4 @@
-context("Test utils.r")
+context("Test various utility functions")
 
 
 test_that("Can find {{ mustache }} tags", {

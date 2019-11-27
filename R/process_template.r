@@ -28,6 +28,7 @@
 #' @param output processed template
 #' @param parameters these will replace the parameters with the same name in the TOML config
 #'     or any TOML subconfigs/subtemplates
+#'
 #' @export
 process_template = function(template, config, output, parameters=NULL){
     config = parse_config(config, parameters)
@@ -38,7 +39,7 @@ process_template = function(template, config, output, parameters=NULL){
     }
 
 
-#' Recursively parse TOML conig
+#' Recursively parse TOML config
 #̈́'
 #' First recursively parse any TOML configs linked in the template block and then process XML
 #' chunks by substituting the {{ moustache }} tags using the content of the default block and
@@ -56,6 +57,8 @@ process_template = function(template, config, output, parameters=NULL){
 #' @param defaults parameters that will replace any other parameters from the default block
 #' @return list of processed XML chunks from this or any daughter config
 #'     and the default parameter block
+#'
+#' @export
 parse_config = function(file, defaults=NULL){
     config = RcppTOML::parseTOML(file, escape=FALSE)
     settmpdir(dirname(file))
