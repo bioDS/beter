@@ -21,4 +21,4 @@ Imports:
 Suggests:
     ape,
     testthat,
-RoxygenNote: 7.0.0
+RoxygenNote: 7.0.2
