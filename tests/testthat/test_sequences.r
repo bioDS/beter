@@ -12,16 +12,16 @@ fasta_file = "test_files/test.fasta"
 nexus_file = "test_files/test.nex"
 
 sequences_xml = paste0(
-    "<data id=\"Alignment\" dataType=\"nucleotide\">\n",
+    "<data id=\"alignment\" dataType=\"nucleotide\">\n",
     "    <sequence taxon=\"seq1\">ACTGACTG</sequence>\n",
     "    <sequence taxon=\"seq2\">CTGACTGA</sequence>\n",
     "    <sequence taxon=\"seq3\">TGACTGAC</sequence>\n",
-    "</data>\n"
+    "</data>"
     )
 
 
 sequences_xml_random = paste0(
-    "<data id=\"Alignment\" dataType=\"standard\">\n",
+    "<data id=\"alignment\" dataType=\"standard\">\n",
     "    <sequence taxon=\"seq_1\">1</sequence>\n",
     "    <sequence taxon=\"seq_2\">1</sequence>\n",
     "    <sequence taxon=\"seq_3\">1</sequence>\n",
@@ -30,7 +30,7 @@ sequences_xml_random = paste0(
     " spec=\"beast.evolution.datatype.StandardData\"",
     " ambiguities=\"\"",
     " nrOfStates=\"1\"\n",
-    "</data>\n"
+    "</data>"
     )
     
 

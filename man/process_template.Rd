@@ -4,16 +4,27 @@
 \alias{process_template}
 \title{Process an XML template with TOML config.}
 \usage{
-process_template(template, config, output, parameters = NULL)
+process_template(
+  template,
+  output,
+  config = NULL,
+  alignment = NULL,
+  format = NULL,
+  parameters = NULL
+)
 }
 \arguments{
 \item{template}{an XML template with {{ moustache }} tags that will be substituted according to
 the input parameters or the default parameters in the TOML config.}
 
+\item{output}{processed template}
+
 \item{config}{a TOML config file containing default values for {{ moustache }} tags, XML chunks
 or path to additional TOML subconfigs/subtemplates.}
 
-\item{output}{processed template}
+\item{alignment}{sequence alignment}
+
+\item{format}{of the sequence alignment}
 
 \item{parameters}{these will replace the parameters with the same name in the TOML config
 or any TOML subconfigs/subtemplates}
@@ -40,4 +51,8 @@ according to their need. On the other hand, xml chunks with the same name are me
 as a list, this makes it possible for different subtemplates to define their own priors,
 operators or logs, which can be then put in a single point without replacing each other's
 structures. This makes it possible to build a BEAST2 XML.
+
+In addition, alignment in format FASTA or NEXUS can be specified and will be inputted
+as {{{ sequences }}} tag. If not specified, the alignmet data type will be guessed
+and the alignment id will be constructed out of the alignment file.
 }

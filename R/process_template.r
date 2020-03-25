@@ -21,18 +21,38 @@
 #' operators or logs, which can be then put in a single point without replacing each other's
 #' structures. This makes it possible to build a BEAST2 XML.
 #'
+#' In addition, alignment in format FASTA or NEXUS can be specified and will be inputted
+#' as {{{ sequences }}} tag. If not specified, the alignmet data type will be guessed
+#' and the alignment id will be constructed out of the alignment file. 
+#'
 #' @param template an XML template with {{ moustache }} tags that will be substituted according to
 #'     the input parameters or the default parameters in the TOML config.
+#' @param output processed template
 #' @param config a TOML config file containing default values for {{ moustache }} tags, XML chunks
 #'     or path to additional TOML subconfigs/subtemplates.
-#' @param output processed template
+#' @param alignment sequence alignment
+#' @param format of the sequence alignment
 #' @param parameters these will replace the parameters with the same name in the TOML config
 #'     or any TOML subconfigs/subtemplates
 #'
 #' @export
-process_template = function(template, config, output, parameters=NULL){
-    config = parse_config(config, parameters)
+process_template = function(
+    template, output,
+    config=NULL, alignment=NULL, format=NULL, parameters=NULL
+    ){
+    if(!is.null(config)){
+        config = parse_config(config, parameters)
+        }
+
     data = merge(config$data, merge(config$defaults, parameters))
+
+    if(!is.null(alignment)){
+        if(is.null(data$alignment_id))
+            data$alignment_id = basename_sans_ext(alignment)
+        sequences = read_alignment(alignment, format)
+        data$sequences = sequences2xml(sequences)
+        }
+
     template = readLines(template)
     text = whisker::whisker.render(template, data)
     writeLines(text, output)

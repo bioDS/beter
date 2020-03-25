@@ -3,10 +3,12 @@ context("Processing XML template and TOML config")
 
 
 # Helper functions
-get_template = function(template, config, parameters=NULL){
+get_template = function(
+    template, config=NULL, alignment=NULL, format=NULL, parameters=NULL
+    ){
     temp = tempfile()
     on.exit(unlink(temp))
-    process_template(template, config, temp, parameters)
+    process_template(template, temp, config, alignment, format, parameters)
     readLines(temp)
     }
 
@@ -179,9 +181,20 @@ test_that("XML chunks with the same name are added together", {
     unlink(template_file)
     })
 
-# Test:
-# processing XML chunks with mustache
-# processing XML chunks with mustache in subtemplates
-# merging XML chunks into the same list in subtemplates
-# parameters rewrite defaults
-# parameters rewrite defaults in subtemplates
+
+test_that("XML template with sequences is processed", {
+    processed_nexus = get_template(
+        "test_files/primates_template.xml",
+        alignment = "test_files/primates.nex",
+        format = "nexus"
+        )
+    processed_fasta = get_template(
+        "test_files/primates_template.xml",
+        alignment = "test_files/primates.fasta",
+        format = "fasta"
+        )
+    expected = readLines("test_files/primates.xml")
+
+    expect_equal(processed_fasta, expected)
+    expect_equal(processed_nexus, expected)
+    })

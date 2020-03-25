@@ -102,3 +102,17 @@ join = function(..., sep=" ", collapse=NULL){
         )
     do.call(paste, args=c(args, sep=sep, collapse=collapse))
     }
+
+
+#' Basename without extension
+#'
+#' Combination of \code{\link{basename}} and \code{link{file_path_sans_ext}}.
+#'
+#' @param path a filepath
+#' @return basename without extension
+#'
+#' @examples
+#' beter:::basename_sans_ext("folder/file.extension") # returns "file"
+basename_sans_ext = function(path){
+    basename(tools::file_path_sans_ext(path))
+    }

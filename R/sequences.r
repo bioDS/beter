@@ -1,22 +1,3 @@
-#' Process and XML template given alignment
-#'
-#' \code{todoname} is a more user-friendly version of \code{process_template} function. Using this
-#' function, user only needs the XML template constructed by modifying BEAUTi output and
-#' an alignment file (e.g., fasta). The function parses the alignment input and tries to estimate
-#' some parameters regarding the alignment required by BEAST, such as the data type
-#' (e.g., nucleotide, standard...), size of the alignment
-#todoname = function(template, alignment, output, parameters=NULL){
-#    sequences = read_alignment(alignment)
-#    data = list(
-#        datatype = get_datatype(sequences)
-#        
-#    data = merge(alignment$data, parameters)
-#    template = readLines(template)
-#    text = whisker::whisker.render(template, data)
-#    writeLines(text, output)
-#    }
-
-
 #' Read alignment
 #'
 #' Parse sequence alignment and return a named list of sequences.
@@ -46,7 +27,7 @@ read_alignment = function(file, format=NULL){
         if(ext %in% c("fasta", "fst", "fas")) return(read_fasta(file))
         if(ext %in% c("nexus", "nex")) return(read_nexus(file))
         # else:
-        stop("Unrecognized extension.")
+        stop("Unrecognized extension:", ext)
         }
     }
 
@@ -113,6 +94,7 @@ parse_nexus_header = function(text){
 parse_nexus_sequences = function(text){
     text = strsplit(text, split="[[:blank:]]+")
     sequences = lapply(text, getElement, 2)
+    sequences = lapply(sequences, toupper)
     names(sequences) = lapply(text, getElement, 1)
     sequences
     }
@@ -125,6 +107,7 @@ parse_fasta_sequences = function(from, to, text){
             paste0(text[(x+1):y], collapse="")
             },
         from, to, MoreArgs=list(text=text), SIMPLIFY=FALSE)
+    sequences = lapply(sequences, toupper)
     names(sequences) = sub("^>", "", text[from])
     sequences
     }
@@ -140,7 +123,7 @@ parse_fasta_sequences = function(from, to, text){
 sequences2xml = function(sequences, data=list()){
     # if parameters are not set, try to guess them
     if(is.null(data$datatype)) data$datatype = guess_datatype(sequences)
-    if(is.null(data$id)) data$id = "Alignment"
+    if(is.null(data$alignment_id)) data$alignment_id = "alignment"
 
     if(data$datatype == "standard"){
         data$standard = TRUE
@@ -156,14 +139,14 @@ sequences2xml = function(sequences, data=list()){
         )
 
     template = paste0(
-        "<data id=\"{{id}}\" dataType=\"{{datatype}}\">\n",
+        "<data id=\"{{alignment_id}}\" dataType=\"{{datatype}}\">\n",
         "    {{#sequences}}\n",
         "    <sequence taxon=\"{{name}}\">{{sequence}}</sequence>\n",
         "    {{/sequences}}\n",
         "{{#standard}}",
         template_standard,
         "{{/standard}}",       
-        "</data>\n")
+        "</data>")
     sequences_tuples = mapply(
         function(x,y){list(name=x, sequence=y)},
         names(sequences), sequences,
@@ -182,24 +165,27 @@ sequences2xml = function(sequences, data=list()){
 #'      \item nucleotide
 #'      \item standard
 #'  }
-#' @param sequences
+#'
+#' @param sequences list of strings
 #' @return datatype
 guess_datatype = function(sequences){
-    chars = lapply(head(sequences), substring, 1, 5)
+    chars = lapply(utils::head(sequences), substring, 1, 5)
     chars = paste0(unlist(chars), collapse="")
     chars = unique(strsplit(chars, "")[[1]])
+    chars = toupper(chars)
     if(all(chars %in% c("A", "C", "T", "G", "-", "N", "?")))
         return("nucleotide")
     if(all(chars %in% c(1:9, "-", "N", "?")))
         return("standard")
-    stop("Unrecognized data type")
+    stop("Unrecognized data type: ", paste0(chars, collapse=", "))
     }
 
 
 #' Guess the number of states
 #'
 #' Guess the number of states in sequences
-#' @param sequences
+#'
+#' @param sequences list of strings
 #' @return number of states
 guess_number_of_states = function(sequences){
     chars = lapply(sequences, function(x) unique(strsplit(x, "")[[1]]))
