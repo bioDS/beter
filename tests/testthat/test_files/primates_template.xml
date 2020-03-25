@@ -8,7 +8,7 @@
     <input spec='HKY' id='hky'>
         <kappa idref='hky.kappa'/>
         <frequencies id='freqs' spec='Frequencies'>
-            <data idref='alignment'/>
+            <data idref='{{alignment_id}}'/>
         </frequencies>
     </input>
 
@@ -22,7 +22,7 @@
     </input>
 
     <input spec='TreeLikelihood' id="treeLikelihood">
-        <data idref="alignment"/>
+        <data idref="{{alignment_id}}"/>
         <tree idref="tree"/>
         <siteModel idref="siteModel"/>
     </input>
@@ -32,9 +32,9 @@
     <tree id='tree'/>
 
     <tree spec='beast.util.ClusterTree' id='upgmatree' clusterType='upgma' initial='@tree'>
-        <taxa idref='alignment'/>
+        <taxa idref='{{alignment_id}}'/>
     </tree>
-    <tree spec='beast.evolution.tree.RandomTree' id='coalescentSimulator' initial='@tree' taxa='@alignment'>
+    <tree spec='beast.evolution.tree.RandomTree' id='coalescentSimulator' initial='@tree' taxa='@{{alignment_id}}'>
         <populationModel spec='ConstantPopulation'>
             <popSize spec='parameter.RealParameter' value='1'/>
         </populationModel>
