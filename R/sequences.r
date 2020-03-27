@@ -135,7 +135,7 @@ sequences2xml = function(sequences, data=list()){
         " id=\"StandardDataType\"",
         " spec=\"beast.evolution.datatype.StandardData\"",
         " ambiguities=\"\"",
-        " nrOfStates=\"{{number_of_states}}\"\n"
+        " nrOfStates=\"{{number_of_states}}\"/>\n"
         )
 
     template = paste0(
@@ -175,7 +175,7 @@ guess_datatype = function(sequences){
     chars = toupper(chars)
     if(all(chars %in% c("A", "C", "T", "G", "-", "N", "?")))
         return("nucleotide")
-    if(all(chars %in% c(1:9, "-", "N", "?")))
+    if(all(chars %in% c(0:9, "-", "N", "?")))
         return("standard")
     stop("Unrecognized data type: ", paste0(chars, collapse=", "))
     }
