@@ -134,8 +134,7 @@ sequences2xml = function(sequences, data=list()){
         "    <userDataType",
         " id=\"StandardDataType\"",
         " spec=\"beast.evolution.datatype.StandardData\"",
-        " ambiguities=\"\"",
-        " nrOfStates=\"{{number_of_states}}\"/>\n"
+        " nrOfStates=\"{{number_of_states}}\" />\n"
         )
 
     template = paste0(
