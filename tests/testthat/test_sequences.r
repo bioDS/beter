@@ -28,8 +28,7 @@ sequences_xml_random = paste0(
     "    <userDataType",
     " id=\"StandardDataType\"",
     " spec=\"beast.evolution.datatype.StandardData\"",
-    " ambiguities=\"\"",
-    " nrOfStates=\"1\"\n",
+    " nrOfStates=\"1\" />\n",
     "</data>"
     )
     
