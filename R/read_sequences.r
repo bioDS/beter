@@ -1,18 +1,16 @@
-#' Read alignment
+#' Read sequences
 #'
-#' Parse sequence alignment and return a named list of sequences.
+#' Parse a sequence alignment file and return a named list of sequences.
 #'
 #' The function \code{\link{read_alignment}} reads the alignment according to the format provided
 #' with the \code{format} parameter or, if not provided, tries to guess the alignment format from
 #' the file extension. Currently supported formats are the \emph{fasta} and \emph{nexus} formats.
 #' Interleaved formats are not supported.
 #'
-#'
 #' @param file with alignment
 #' @param format requested format
 #' @return named list of sequences
-#' @name readalignment
-read_alignment = function(file, format=NULL){
+read_sequences = function(file, format=NULL){
     supported_formats = c("fasta", "nexus")
 
     if(!is.null(format)){
@@ -32,7 +30,7 @@ read_alignment = function(file, format=NULL){
     }
 
 
-#' @rdname readalignment 
+#' @rdname read_sequences
 read_fasta = function(file){
     text = readLines(file)
 
@@ -45,7 +43,7 @@ read_fasta = function(file){
     }
 
 
-#' @rdname readalignment
+#' @rdname read_sequences
 read_nexus = function(file){
     text = readLines(file)
 
