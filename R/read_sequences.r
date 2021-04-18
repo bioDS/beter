@@ -34,10 +34,18 @@ read_sequences = function(file, format=NULL){
 read_fasta = function(file){
     text = readLines(file)
 
-    from = grep(">", text)
-    to = c(from[2:length(from)] - 1, length(text))
+    starts = grep(">", text)
+    stops = c(starts[-1]-1, length(text))
 
-    sequences = parse_fasta_sequences(from, to, text)
+    sequences = mapply(
+        function(start, stop, text){
+            seq = text[(start+1):stop]
+            seq = gsub("[:blank:]*", "", seq)
+            paste0(seq, collapse="")
+            },
+        starts, stops, MoreArgs=list(text)
+        )
+    names(sequences) = sub("^>", "", text[starts])
 
     return(sequences)
     }
@@ -94,18 +102,5 @@ parse_nexus_sequences = function(text){
     sequences = lapply(text, getElement, 2)
     sequences = lapply(sequences, toupper)
     names(sequences) = lapply(text, getElement, 1)
-    sequences
-    }
-
-
-#' @rdname readalignmenthelper
-parse_fasta_sequences = function(from, to, text){
-    sequences = mapply(
-        function(x,y,text){
-            paste0(text[(x+1):y], collapse="")
-            },
-        from, to, MoreArgs=list(text=text), SIMPLIFY=FALSE)
-    sequences = lapply(sequences, toupper)
-    names(sequences) = sub("^>", "", text[from])
     sequences
     }
