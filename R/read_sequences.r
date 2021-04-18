@@ -10,6 +10,8 @@
 #' @param file with alignment
 #' @param format requested format
 #' @return named list of sequences
+#'
+#' @export
 read_sequences = function(file, format=NULL){
     supported_formats = c("fasta", "nexus")
 
