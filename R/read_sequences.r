@@ -15,6 +15,16 @@
 #' @return named list of sequences
 #'
 #' @export
+#'
+#' @examples
+#' seq1 = c("A" = "AAA", "B" = "BBB", "C" = "CCC")
+#' fasta = tempfile(fileext = ".fasta")
+#' writeLines(paste0(">", names(seq1), "\n", seq1), fasta)
+#'
+#' seq2 = read_sequences(fasta)
+#' seq3 = read_fasta(fasta)
+#' identical(seq1, seq2)
+#' identical(seq1, seq3)
 read_sequences = function(file, format=NULL){
     supported_formats = c("fasta", "nexus")
 
