@@ -33,14 +33,6 @@ sequences_xml_random = paste0(
     )
     
 
-# helper functions
-tempcopy = function(file){
-    temp = tempfile()
-    file.copy(file, temp, overwrite=TRUE)
-    return(temp) 
-    }
-
-
 random_sequences = function(states=1:9, nseq=10, length=10){
     seqs = replicate(
         nseq,
@@ -50,29 +42,6 @@ random_sequences = function(states=1:9, nseq=10, length=10){
     names(seqs) = paste0("seq_", 1:nseq)
     seqs
     }
-
-
-# Test sequence reading and processing ----------------------------------------------------------- #
-test_that("Can read a sample fasta file", {
-    expect_equal(read_fasta(fasta_file), sequences)
-    })
-
-
-test_that("Can read a sample nexus file", {
-    expect_equal(read_nexus(nexus_file), sequences)
-    })
-
-
-test_that("Uses a correct function to read alignment when FORMAT is specified", {
-    expect_equal(read_alignment(tempcopy(fasta_file), format="fasta"), sequences)
-    expect_equal(read_alignment(tempcopy(nexus_file), format="nexus"), sequences)
-    })
-
-
-test_that("Uses a correct function to read alignment by guessing format from extension", {
-    expect_equal(read_alignment(fasta_file), sequences)
-    expect_equal(read_alignment(nexus_file), sequences)
-    })
 
 
 test_that("Guessing datatype and values from data", {
