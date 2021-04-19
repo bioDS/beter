@@ -1,11 +1,14 @@
-#' Read sequences
+#' Read sequences from a file
 #'
-#' Parse a sequence alignment file and return a named list of sequences.
+#' These functions read a sequence alignment file and return a named list of sequences.
+#' Currently supported formats are `fasta` and `nexus`. Interleaved formats, where sequences are
+#' defined in a repeating blocks, are not supported.
 #'
-#' The function \code{\link{read_alignment}} reads the alignment according to the format provided
-#' with the \code{format} parameter or, if not provided, tries to guess the alignment format from
-#' the file extension. Currently supported formats are the \emph{fasta} and \emph{nexus} formats.
-#' Interleaved formats are not supported.
+#' The function `[read_sequences]` tries to guess the correct format from the file extension.
+#' Alternatively, the correct format can be specified. Currently supported formats are
+#' \emph{fasta} and \emph{nexus}.
+#'
+#' Functions `[read_fasta]` and `[read_nexus]` are then used to read the sequence alignment file. 
 #'
 #' @param file with alignment
 #' @param format requested format
@@ -36,7 +39,7 @@ read_sequences = function(file, format=NULL){
 read_fasta = function(file){
     text = readLines(file)
 
-    starts = grep(">", text)
+    starts = grep("^>", text)
     stops = c(starts[-1]-1, length(text))
 
     sequences = mapply(
@@ -81,11 +84,11 @@ read_nexus = function(file){
 #' @param text vector of lines with sequences in particular format
 #' @param from in a fasta file, this is a vector of begining of sequences
 #' @param to in a fasta file, this is a vector of ends of sequences
-#' @name readalignmenthelper
+#' @name read_sequences_helper
 NULL
 
 
-#' @rdname readalignmenthelper
+#' @rdname read_sequences_helper
 parse_nexus_header = function(text){
     text = sub(";$", "", text)
     text = strsplit(text, split=" ", fixed=TRUE)
@@ -98,7 +101,7 @@ parse_nexus_header = function(text){
     }
 
 
-#' @rdname readalignmenthelper
+#' @rdname read_sequences_helper
 parse_nexus_sequences = function(text){
     text = strsplit(text, split="[[:blank:]]+")
     sequences = lapply(text, getElement, 2)
