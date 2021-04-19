@@ -46,6 +46,7 @@ read_sequences = function(file, format=NULL){
 
 
 #' @rdname read_sequences
+#' @export
 read_fasta = function(file){
     text = readLines(file)
 
@@ -67,6 +68,7 @@ read_fasta = function(file){
 
 
 #' @rdname read_sequences
+#' @export
 read_nexus = function(file){
     text = readLines(file)
 
@@ -91,9 +93,7 @@ read_nexus = function(file){
 #' These functions are used internally when alignemnt is being read and processed. They tend to
 #' extract and proces sequences from particular part of text.
 #'
-#' @param text vector of lines with sequences in particular format
-#' @param from in a fasta file, this is a vector of begining of sequences
-#' @param to in a fasta file, this is a vector of ends of sequences
+#' @param text part of sequence file parsed by a helper function
 #' @name read_sequences_helper
 NULL
 
