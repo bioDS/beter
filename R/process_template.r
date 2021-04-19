@@ -49,7 +49,7 @@ process_template = function(
     if(!is.null(alignment)){
         if(is.null(data$alignment_id))
             data$alignment_id = basename_sans_ext(alignment)
-        sequences = read_alignment(alignment, format)
+        sequences = read_sequences(alignment, format)
         data$sequences = sequences2xml(sequences, data)
         }
 
