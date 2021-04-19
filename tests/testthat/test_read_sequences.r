@@ -1,20 +1,6 @@
 context("Read sequence alignment files")
 
-#' Make a temporal copy of file with a random filename
-tempcopy = function(file){
-    temp = tempfile()
-    file.copy(file, temp, overwrite=TRUE)
-    return(temp) 
-    }
 
-# Named vector of sequences
-sequences = c(
-    "seq1" = "ACTGACTG",
-    "seq2" = "CTGACTGA",
-    "seq3" = "TGACTGAC"
-    )
-
-# Path to sequence alignment files
 fasta_file = "test_files/test.fasta"
 nexus_file = "test_files/test.nex"
 

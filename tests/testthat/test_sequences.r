@@ -1,16 +1,5 @@
 context("Processing alignment files")
 
-# define variables that are used across tests:
-sequences = list(
-    seq1 = "ACTGACTG",
-    seq2 = "CTGACTGA",
-    seq3 = "TGACTGAC"
-    )
-
-
-fasta_file = "test_files/test.fasta"
-nexus_file = "test_files/test.nex"
-
 sequences_xml = paste0(
     "<data id=\"alignment\" dataType=\"nucleotide\">\n",
     "    <sequence taxon=\"seq1\">ACTGACTG</sequence>\n",
@@ -31,17 +20,7 @@ sequences_xml_random = paste0(
     " nrOfStates=\"1\" />\n",
     "</data>"
     )
-    
 
-random_sequences = function(states=1:9, nseq=10, length=10){
-    seqs = replicate(
-        nseq,
-        paste0(sample(as.character(states), size=length, replace=TRUE), collapse=""),
-        simplify=FALSE
-        )
-    names(seqs) = paste0("seq_", 1:nseq)
-    seqs
-    }
 
 
 test_that("Guessing datatype and values from data", {
