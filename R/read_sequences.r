@@ -114,8 +114,8 @@ parse_nexus_header = function(text){
 #' @rdname read_sequences_helper
 parse_nexus_sequences = function(text){
     text = strsplit(text, split="[[:blank:]]+")
-    sequences = lapply(text, getElement, 2)
-    sequences = lapply(sequences, toupper)
-    names(sequences) = lapply(text, getElement, 1)
+    sequences = sapply(text, getElement, 2)
+    sequences = toupper(sequences)
+    names(sequences) = sapply(text, getElement, 1)
     sequences
     }
