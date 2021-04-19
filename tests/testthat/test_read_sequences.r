@@ -1,4 +1,4 @@
-context("Read sequence alignment files")
+context("Reading sequence alignment files")
 
 
 test_fasta = "test_files/test.fasta"
