@@ -23,6 +23,13 @@ test_that("Uses a correct function to read alignment by guessing format from ext
     expect_identical(read_sequences(test_nexus), sequences)
     })
 
+test_that("Throws an error if unsupported file format is provided", {
+    expect_error(read_sequences(test_fasta, format=""), "Unsupported format: ")
+    expect_error(read_sequences(test_fasta, format="blargh"), "Unsupported format: blargh")
+    expect_error(read_sequences("test."), "Unrecognized extension: ")
+    expect_error(read_sequences("test.blargh"), "Unrecognized extension: blargh")
+    })
+
 
 test_that("Correctly reads primate file", {
     seq_fas = read_sequences(primates_fasta)

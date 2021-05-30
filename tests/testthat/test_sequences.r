@@ -33,6 +33,10 @@ test_that("Guessing datatype and values from data", {
 
     expect_equal( guess_datatype(random_sequences()), "standard")
     expect_equal( guess_datatype(sequences), "nucleotide")
+    
+    expect_error(guess_datatype("foo"), "Unrecognized data type: F, O")
+    expect_error(guess_datatype("bar"), "Unrecognized data type: B, A, R")
+    expect_error(guess_datatype("baz"), "Unrecognized data type: B, A, Z")
     })
 
 
