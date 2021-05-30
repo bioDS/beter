@@ -19,6 +19,5 @@ Imports:
     rlist,
     stringr,
 Suggests:
-    ape,
     testthat,
 RoxygenNote: 7.1.1
