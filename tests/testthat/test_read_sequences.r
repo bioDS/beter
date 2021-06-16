@@ -1,8 +1,8 @@
 context("Reading sequence alignment files")
 
 
-test_fasta = "test_files/test.fasta"
-test_nexus = "test_files/test.nex"
+test_fasta = "test_files/uppercase.fasta"
+test_nexus = "test_files/uppercase.nex"
 primates_fasta = "test_files/primates.fasta"
 primates_nexus = "test_files/primates.nex"
 
@@ -11,6 +11,15 @@ test_that("Can read test sequence files", {
     expect_identical(read_nexus(test_nexus), sequences)
     })
 
+test_that("Case of sequences is not modified", {
+    expect_identical(read_fasta("test_files/uppercase.fasta"), sequences_uppercase)
+    expect_identical(read_fasta("test_files/lowercase.fasta"), sequences_lowercase)
+    expect_identical(read_fasta("test_files/mixed.fasta"), sequences_mixed)
+
+    expect_identical(read_nexus("test_files/uppercase.nex"), sequences_uppercase)
+    expect_identical(read_nexus("test_files/lowercase.nex"), sequences_lowercase)
+    expect_identical(read_nexus("test_files/mixed.nex"), sequences_mixed)
+    })
 
 test_that("Uses a correct function to read alignment when FORMAT is specified", {
     expect_identical(read_sequences(tempcopy(test_fasta), format="fasta"), sequences)
