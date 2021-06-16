@@ -115,7 +115,6 @@ parse_nexus_header = function(text){
 parse_nexus_sequences = function(text){
     text = strsplit(text, split="[[:blank:]]+")
     sequences = sapply(text, getElement, 2)
-    sequences = toupper(sequences)
     names(sequences) = sapply(text, getElement, 1)
     sequences
     }
