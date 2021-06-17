@@ -9,11 +9,29 @@ sequences2xml(sequences, data = list())
 \arguments{
 \item{sequences}{parsed from file}
 
-\item{data}{other variables, such as specification of dataType}
+\item{data}{**optional** other variables, such as specification of datatype}
 }
 \value{
 BEAST xml data block
 }
 \description{
-This functions converts the parsed sequences into an XML data block for BEAST.
+This functions uses an internal mustache template to convert a named vector of sequences
+into an XML data block for BEAST.
+}
+\details{
+The internal template uses two parameters, an *alignment_id* and a *datatype*.
+The *alignment_id* identifies this particular alignment block and is important only when multiple
+input alignments are used during the BEAST analysis. A good practice might be to use a file name
+of the sequences as an *alignment_id*.
+
+The *datatype* is much more important an tells BEAST what kind of data the alignment represents.
+The *beter* will try to guess the most common data types: *standard* (binary or discrete states)
+or *nucleotide* (DNA nucleotides), but if the data is of any other type, the "datatype" must
+be specified.
+}
+\examples{
+seq = c("A" = "ACTG", "B" = "CTGA", "C" = "TGAC")
+sequences2xml(seq)
+
+sequences2xml(seq, data=list("alignment_id" = "seq", "datatype"="nucleotide") )
 }
