@@ -6,6 +6,8 @@ test_nexus = "test_files/uppercase.nex"
 primates_fasta = "test_files/primates.fasta"
 primates_nexus = "test_files/primates.nex"
 
+# TODO split this according to the format?
+# TODO dynamically create these tests?
 test_that("Can read test sequence files", {
     expect_identical(read_fasta(test_fasta), sequences)
     expect_identical(read_nexus(test_nexus), sequences)
