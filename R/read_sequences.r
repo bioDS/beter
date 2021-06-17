@@ -40,7 +40,7 @@ read_sequences = function(file, format=NULL){
         if(ext %in% c("fasta", "fst", "fas")) return(read_fasta(file))
         if(ext %in% c("nexus", "nex")) return(read_nexus(file))
         # else:
-        stop("Unrecognized extension:", ext)
+        stop("Unrecognized extension: ", ext)
         }
     }
 
