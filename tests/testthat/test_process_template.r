@@ -139,7 +139,7 @@ test_that("Test basic template processing", {
 
     expect_equal(processed_template, premade_template)
     })
-
+sequences2xml
 
 test_that("processing XML chunks with {{ mustache }} tags", {
     config_file = write_to_temp(list2toml(config))
@@ -197,4 +197,25 @@ test_that("XML template with sequences is processed", {
 
     expect_equal(processed_fasta, expected)
     expect_equal(processed_nexus, expected)
+    })
+
+
+test_that("Alignment_id is replaced by input parameter", {
+    template = get_template("test_files/primates_template.xml", alignment="test_files/primates.fasta")
+    expect_equal(get_alignment_id(template), "primates")
+    
+    template = get_template(
+        "test_files/primates_template.xml",
+        alignment = "test_files/primates.fasta",
+        parameters = list("alignment_id" = "foo")
+        )
+    expect_equal(get_alignment_id(template), "foo")
+    
+    template = get_template(
+        "test_files/primates_template.xml",
+        alignment = "test_files/primates.fasta",
+        parameters = list("datatype"="nucleotide", "alignment_id" = "foo")
+        )
+    expect_equal(get_alignment_id(template), "foo")
+    print(template)
     })

@@ -1,5 +1,6 @@
 context("Processing alignment files")
 
+
 sequences_xml = paste0(
     "<data id=\"alignment\" dataType=\"nucleotide\">\n",
     "    <sequence taxon=\"seq1\">ACTGACTG</sequence>\n",
@@ -43,4 +44,10 @@ test_that("Guessing datatype and values from data", {
 test_that("Can convert sequences to xml", {
     expect_identical(sequences2xml(sequences), sequences_xml)
     expect_identical(sequences2xml(random_sequences(1, 3, 1)), sequences_xml_random)
+    })
+
+
+test_that("Data id is replaced by input parameter", {
+    expect_identical(get_alignment_id(sequences2xml(sequences)), "alignment")
+    expect_identical(get_alignment_id(sequences2xml(sequences, list(alignment_id="foo"))), "foo")
     })
