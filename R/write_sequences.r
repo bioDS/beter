@@ -4,8 +4,6 @@
 #' @param file a character string naming a file
 #' @param format **optional** write sequences in this format, currently supported
 #' formats are `fasta` and `nexus`
-#' @param nchar **optional** a number of characters per line
-#' @param datatype **optional** the type of data
 #' @param ... **optional** parameters passed to the underlying function
 #'
 #' @export
@@ -17,11 +15,11 @@
 #'
 #' seq2 = read_fasta(fasta)
 #' identical(seq1, seq2)
-write_sequences = function(seq, file, format=NULL, ...){
+write_sequences = function(seq, file="", format=NULL, ...){
     supported_formats = c("fasta", "nexus")
 
     if(is.null(format)){
-        ext = tolower(tools::file_ext(file))        
+        ext = tolower(tools::file_ext(file))
         if(ext %in% c("fasta", "fst", "fas")) format = "fasta"
         if(ext %in% c("nexus", "nex")) format = "nexus"
         if(is.null(format)) stop("Unrecognized extension: ", ext)
@@ -34,6 +32,7 @@ write_sequences = function(seq, file, format=NULL, ...){
 
 
 #' @rdname write_sequences
+#' @param nchar **optional** a number of characters per line
 #' @export
 write_fasta = function(seq, file="", nchar=80){
     if(!is.null(nchar)){
@@ -52,6 +51,7 @@ write_fasta = function(seq, file="", nchar=80){
 
 
 #' @rdname write_sequences
+#' @param datatype **optional** the type of data
 #' @export
 write_nexus = function(seq, file="", datatype=NULL){
     if(is.null(datatype))
