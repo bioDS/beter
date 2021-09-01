@@ -1,7 +1,3 @@
-context("Processing XML template and TOML config")
-
-
-
 # Helper functions
 get_template = function(
     template, config=NULL, alignment=NULL, format=NULL, parameters=NULL
@@ -217,5 +213,4 @@ test_that("Alignment_id is replaced by input parameter", {
         parameters = list("datatype"="nucleotide", "alignment_id" = "foo")
         )
     expect_equal(get_alignment_id(template), "foo")
-    print(template)
     })
