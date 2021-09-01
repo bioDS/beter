@@ -11,7 +11,7 @@ md5sum = function(files){
     }
 
 
-test_that("Written file is identical to test file", {
+test_that("Written fasta is identical to test file", {
     fasta = tempfile(fileext = ".fasta")
     on.exit(unlink(fasta), add=TRUE)
     write_fasta(sequences, fasta, nchar=4)
@@ -19,6 +19,54 @@ test_that("Written file is identical to test file", {
     expect_identical(md5sum(fasta), md5sum(test_fasta))
     })
 
-# TODO Check if writting and reading sequences produce an identical output
 
-# TODO Check if number of characters per line works
+test_that("Written nexus is identical to test file", {
+    nexus = tempfile(fileext = ".nex")
+    on.exit(unlink(nexus), add=TRUE)
+    write_nexus(sequences, nexus, missing="?", gap="-")
+    
+    expect_identical(md5sum(nexus), md5sum(test_nexus))
+    })
+
+
+test_that("Writting and reading fasta is identical to input", {
+    fasta = tempfile(fileext = ".fasta")
+    on.exit(unlink(fasta), add=TRUE)
+    write_fasta(sequences, fasta, nchar=4)
+    seq = read_fasta(fasta)
+    
+    expect_identical(seq, sequences) 
+    })
+
+
+test_that("Writting and reading nexus is identical to input", {
+    nexus = tempfile(fileext = ".nex")
+    on.exit(unlink(nexus), add=TRUE)
+    write_nexus(sequences, nexus, missing="?", gap="-")
+    seq = read_nexus(nexus)
+    
+    expect_identical(seq, sequences)
+    })
+
+
+test_that("write_sequences selects the correct format", {
+    # fasta
+    fasta = tempfile(fileext = ".fasta")
+    on.exit(unlink(fasta), add=TRUE)
+    write_sequences(sequences, fasta, nchar=4)
+    expect_identical(md5sum(fasta), md5sum(test_fasta))
+    
+    # nexus
+    nexus = tempfile(fileext = ".nex")
+    on.exit(unlink(nexus), add=TRUE)
+    write_sequences(sequences, nexus, missing="?", gap="-")
+    expect_identical(md5sum(nexus), md5sum(test_nexus))
+    })
+
+
+test_that("Throws an error if unsupported file format is provided", {
+    expect_error(write_sequences(sequences, format=""), "Unsupported format: ")
+    expect_error(write_sequences(sequences, format="blargh"), "Unsupported format: blargh")
+    expect_error(write_sequences(sequences, "test."), "Unrecognized extension: ")
+    expect_error(write_sequences(sequences, "test.blargh"), "Unrecognized extension: blargh")
+    })
