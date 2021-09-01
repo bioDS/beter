@@ -52,23 +52,33 @@ write_fasta = function(seq, file="", nchar=80){
 
 #' @rdname write_sequences
 #' @param datatype **optional** the type of data
+#' @param missing **optional** symbol representing missing data
+#' @param gap **optional** symbol representing a gap in aligned sequence
 #' @export
-write_nexus = function(seq, file="", datatype=NULL){
+write_nexus = function(seq, file="", datatype=NULL, missing=NULL, gap=NULL){
     if(is.null(datatype))
         datatype = guess_datatype(seq)
 
-    header = paste0(
-        "#NEXUS\n",
-        "BEGIN DATA;\n",
-        "\tDimension ntax=", length(seq), " nchar=", nchar(seq[1]), ";\n",
-        "\tFormat datatype=", datatype, ";\n",
-        "\tMatrix\n"
+    format = paste0(
+        "format datatype=", datatype,
+        if(!is.null(missing)) paste0(" missing=", missing) else "",
+        if(!is.null(gap)) paste0(" gap=", gap) else "",
+        ";"
         )
-    footer = ";\nEND;\n"
+
+    header = c(
+        "#NEXUS",
+        "begin data;",
+        paste0("dimensions ntax=", length(seq), " nchar=", nchar(seq[1]), ";"),
+        format,
+        #paste0("format datatype=", datatype, missing, gap, ";\n",
+        "matrix"
+        )
+    footer = ";\nend;"
     
     names = names(seq)
     names = format(names, width=max(nchar(names))+1)
-    data = paste0(names, seq, "\n")
+    data = paste0(names, seq)
     
     writeLines(c(header, data, footer), file)
     }

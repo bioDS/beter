@@ -6,11 +6,11 @@
 \alias{write_nexus}
 \title{Write sequences to a file}
 \usage{
-write_sequences(seq, file, format = NULL, ...)
+write_sequences(seq, file = "", format = NULL, ...)
 
 write_fasta(seq, file = "", nchar = 80)
 
-write_nexus(seq, file = "", datatype = NULL)
+write_nexus(seq, file = "", datatype = NULL, missing = NULL, gap = NULL)
 }
 \arguments{
 \item{seq}{a named vector of sequences}
@@ -25,6 +25,10 @@ formats are `fasta` and `nexus`}
 \item{nchar}{**optional** a number of characters per line}
 
 \item{datatype}{**optional** the type of data}
+
+\item{missing}{**optional** symbol representing missing data}
+
+\item{gap}{**optional** symbol representing a gap in aligned sequence}
 }
 \description{
 Write sequences to a file
