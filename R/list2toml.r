@@ -9,8 +9,6 @@
 #' In these calls, the name of the item is used as a \code{parent_name}. 
 #'
 #' @param x a named list
-#' @param parent_name name of the parent list in recursive calls of this function. Should not be
-#'     specified
 #' @return a string vector representing individual lines of TOML representation of \code{x}.
 #'
 #' @export
@@ -19,20 +17,28 @@
 #' config = list(
 #'     "xml" = list("chunk" = "<xml>{{tag}}</xml>"),
 #'     "templates" = list(),
-#'     "defaults" = list("tag" = "Just another tag in the wall!")
+#'     "defaults" = list("tag" = "Just another tag in the TOML!")
 #'      )
 #' list2toml(config)
-list2toml = function(x, parent_name=NULL){
+list2toml = function(x){
+    parse_list(x)
+    }
+
+
+# Parse list (recursively) and converts it to a vector of toml lines
+parse_list = function(x, parent_name=NULL){
     # check against empty list:
     if(length(x) == 0){
         return("")
         }
-    # process those that are not lists:
+
+    # process items that are not lists:
     items = x[sapply(x, Negate(is.list))]
     item_lines = unlist(mapply(process_item, names(items), items, USE.NAMES=FALSE))
     if(length(item_lines) > 0)
-        item_lines = c(item_lines, "") 
-    # process lists using a recursive call of this function:
+        item_lines = c(item_lines, "")
+
+    # process lists using a recursive call of this function through process_list:
     lists = x[sapply(x, is.list)]
     list_lines = unlist(mapply(
         process_list,
@@ -44,6 +50,7 @@ list2toml = function(x, parent_name=NULL){
     }
 
 
+# process non-list items by wrapping them with square brackets
 process_item = function(name, item){
     if(methods::is(item, "character"))
         item = paste0("\"", item, "\"")
@@ -53,9 +60,10 @@ process_item = function(name, item){
     }
 
 
+# create a TOML table header -- [name.of.item] -- and call parse_list to parse the list
 process_list = function(name, list, parent_name=NULL){
     new_name = join(parent_name, name, sep=".")
-    line = paste0("[", new_name, "]")
-    lines = list2toml(list, new_name)
-    c(line, lines)
+    name_line = paste0("[", new_name, "]")
+    lines = parse_list(list, new_name)
+    c(name_line, lines)
     }
