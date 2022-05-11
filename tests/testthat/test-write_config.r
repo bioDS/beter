@@ -1,51 +1,10 @@
-context("Writing TOML config")
-
-config = list(
-    "xml" = list(
-        first_chunk = "First XML chunk",
-        second_chunk = "Second XML chunk"
-        ),
-    "templates" = list(),
-    "defaults" = list(
-        third_parameter = list(
-            first = 1,
-            second = letters[1:3]
-            ),
-        first_parameter = "one",
-        second_parameter = 1:3
-        )
-    )
-
-test_that("Can parse list and produce TOML structure", {
-    toml = c(
-        "[xml]",
-        "first_chunk = \"First XML chunk\"",
-        "second_chunk = \"Second XML chunk\"",
-        "",
-        "[templates]",
-        "",
-        "[defaults]",
-        "first_parameter = \"one\"",
-        "second_parameter = [ 1, 2, 3 ]",
-        "",
-        "[defaults.third_parameter]",
-        "first = 1",
-        "second = [ \"a\", \"b\", \"c\" ]",
-        ""
-        )
-
-    expect_equal(list2toml(config), toml)
-    })
-
-
-test_that("Writting and reading preserves structure", {
+test_that("write_config is identical to list2toml", {
     temp_file = tempfile()
-    write_config(config, temp_file)
-    toml = RcppTOML::parseTOML(temp_file)
+    write_config(complex_lst, temp_file)
+    obj = readLines(temp_file)
     unlink(temp_file)
-
-    config = sort_named_list(config)
-    toml = sort_named_list(toml)
-
-    expect_equal(config, toml)
+    
+    expected = list2toml(complex_lst)
+    
+    expect_identical(obj, expected)
     })
