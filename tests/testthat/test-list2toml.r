@@ -64,3 +64,15 @@ test_that("scientific format is written in a proper form", {
 
     expect_identical(list2toml(lst), expected)
     })
+
+
+test_that("scientific format can be parsed by TOML parser", {
+    lst = list("scientific" = 5e5)
+
+    temp_file = write_to_temp(list2toml(lst))
+    toml = RcppTOML::parseTOML(temp_file)
+    toml = toml[1] # object returned by toml has some extra attributes
+    unlink(temp_file)
+
+    expect_equal(lst, toml)
+    })

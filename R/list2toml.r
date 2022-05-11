@@ -54,8 +54,15 @@ parse_list = function(x, parent_name=NULL){
 process_item = function(name, item){
     if(methods::is(item, "character"))
         item = paste0("\"", item, "\"")
+
+    # TOML doesn't handle scientific format with zero before +- symbol
+    # e.g., 5e+05; the format must be 5e+5
+    if(methods::is(item, "numeric"))
+        item = sub("[+-]0", "", as.character(item))
+
     if(length(item) > 1)
         item = paste("[", paste0(item, collapse=", "), "]")
+
     paste(name, "=", item)
     }
 
