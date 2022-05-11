@@ -83,3 +83,80 @@ test_that("Alignment_id is replaced by input parameter", {
         )
     expect_equal(get_alignment_id(template), "foo")
     })
+
+
+test_that("scientific notation is unrolled", {
+    # number that R should, by default, convert to scientific format
+    number = 5e+5
+
+    # set up config
+    config = empty_config
+    config_file = write_to_temp(list2toml(config))
+
+
+    # setup template
+    template = "{{number}}"
+    template_file = write_to_temp(template)
+
+    expected = c("500000")
+
+    expect_equal(
+        get_template(template_file, config_file, parameters=list("number"=number)),
+        expected
+        )
+
+    unlink(config_file)
+    unlink(template_file)
+    })
+
+
+test_that("scientific notation is unrolled when processing chunk", {
+    # number that R should, by default, convert to scientific format
+    number = 5e+5
+
+    # set up config
+    config = empty_config
+    config$xml[["chunk"]] = "{{number}}"
+    config$defaults[["number"]] = number
+    config_file = write_to_temp(list2toml(config))
+
+    # setup template
+    template = "{{{chunk}}}"
+    template_file = write_to_temp(template)
+
+    expected = c("500000")
+
+    expect_equal(get_template(template_file, config_file,), expected)
+
+    unlink(config_file)
+    unlink(template_file)
+    })
+
+
+test_that("scientific notation is not unrolled when option is set", {
+    beter_options(scientific=TRUE)
+    on.exit(beter_options(scientific=NULL))
+
+    # number that R should, by default, convert to scientific format
+    number = 5e+5
+
+    # set up config
+    config = empty_config
+    config_file = write_to_temp(list2toml(config))
+
+
+    # setup template
+    template = "{{number}}"
+    template_file = write_to_temp(template)
+
+    expected = c("5e+05")
+
+    expect_equal(
+        get_template(template_file, config_file, parameters=list("number"=number)),
+        expected
+        )
+
+    unlink(config_file)
+    unlink(template_file)
+    })
+

@@ -37,3 +37,59 @@ test_that("Can distinguish empty and non-empty list", {
     expect_true(is.empty(NULL))
     expect_false(is.empty(list("a"=1, "b"=2)))
     })
+
+
+test_that("formatting structured list without scientific notation preserves the list", {
+    lst = list(
+        "a" = 1,
+        "b" = list(
+            "c" = " 2 ",
+            "d" = 3
+            ),
+        "e" = 4
+        )
+
+    expected = lst
+    expected[["a"]] = "1"
+    expected[["b"]][["d"]] = "3"
+    expected[["e"]] = "4"
+
+    expect_identical(format_list(lst), expected)
+    })
+
+
+test_that("formatting list with scientific notation unrolls it", {
+    lst = list(
+        "a" = 5e5,
+        "b" = list(
+            "c" = " 5e5 ",
+            "d" = 2.05e-5
+            ),
+        "e" = 4
+        )
+
+    expected = lst
+    expected[["a"]] = format(expected[["a"]], scientific=FALSE, trim=TRUE)
+    expected[["b"]][["d"]] = format(expected[["b"]][["d"]], scientific=FALSE, trim=TRUE)
+    expected[["e"]] = "4"
+
+    expect_identical(format_list(lst), expected)
+    })
+
+
+test_that("empty list is handled correctly", {
+    lst = list()
+
+    expect_identical(format_list(lst), lst)
+    })
+
+
+test_that("no numeric/list items are handled correctly", {
+    lst = list("a"=1, "b"=2)
+
+    expect_identical(format_list(lst), lapply(lst, as.character))
+
+    lst = list("a"="a", "b"="b")
+
+    expect_identical(format_list(lst), lst)
+    })

@@ -23,3 +23,26 @@ sort_named_list = function(x, decreasing = FALSE){
         }
     x
     }
+
+
+#' Convert numeric elements in list to string
+#'
+#' Recursively converts numeric elements in list to string using the `format` function.
+#' This is done to guarantee that scientific notation is not used.
+#'
+#' @param x a list
+#' @param scientific whether to keep or not the scientific notation
+#' @param trim suppress justifying values to right
+#' @return formatted list
+format_list = function(x, scientific=FALSE, trim=TRUE){
+    if(length(x) == 0)
+        return(x)
+
+    numeric = sapply(x, is.numeric)
+    list = sapply(x, is.list)
+
+    x[numeric] = format(x[numeric], scientific=scientific, trim=trim)
+    x[list] = lapply(x[list], format_list, scientific=scientific, trim=trim)
+
+    x
+    }
