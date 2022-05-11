@@ -1,10 +1,21 @@
-test_that("Test basic template processing", {
-    processed_template = get_template("test_files/test.xml", "test_files/test.toml") 
+#' Process template, return content of the output and clean after itself
+get_template = function(
+    template, config=NULL, alignment=NULL, format=NULL, parameters=NULL
+    ){
+    temp = tempfile()
+    on.exit(unlink(temp))
+    process_template(template, temp, config, alignment, format, parameters)
+    readLines(temp)
+    }
+
+
+test_that("test basic template processing", {
+    processed_template = get_template("test_files/test.xml", "test_files/test.toml")
     premade_template = readLines("test_files/test_processed.xml")
 
     expect_equal(processed_template, premade_template)
     })
-sequences2xml
+
 
 test_that("processing XML chunks with {{ mustache }} tags", {
     config_file = write_to_temp(list2toml(config))
@@ -65,17 +76,17 @@ test_that("XML template with sequences is processed", {
     })
 
 
-test_that("Alignment_id is replaced by input parameter", {
+test_that("alignment_id is replaced by input parameter", {
     template = get_template("test_files/primates_template.xml", alignment="test_files/primates.fasta")
     expect_equal(get_alignment_id(template), "primates")
-    
+
     template = get_template(
         "test_files/primates_template.xml",
         alignment = "test_files/primates.fasta",
         parameters = list("alignment_id" = "foo")
         )
     expect_equal(get_alignment_id(template), "foo")
-    
+
     template = get_template(
         "test_files/primates_template.xml",
         alignment = "test_files/primates.fasta",
@@ -159,4 +170,3 @@ test_that("scientific notation is not unrolled when option is set", {
     unlink(config_file)
     unlink(template_file)
     })
-

@@ -1,7 +1,4 @@
-context("Testing various list utilities")
-
-
-test_that("Can sort a simple named list:", {
+test_that("can sort a simple named list:", {
     list1 = list("a"=1, "b"=2)
     list2 = list("b"=2, "a"=1)
 
@@ -9,7 +6,7 @@ test_that("Can sort a simple named list:", {
     })
 
 
-test_that("Can sort structured named list:", {
+test_that("can sort structured named list:", {
     list1 = list("a"=1, "b"=list("c"=2, "d"=1))
     list2 = list("b"=list("d"=1, "c"=2), "a"=1)
 
@@ -17,7 +14,7 @@ test_that("Can sort structured named list:", {
     })
 
 
-test_that("Can sort structured named list with an empty list:", {
+test_that("can sort structured named list with an empty list:", {
     list1 = list("a"=1, "b"=list())
     list2 = list("b"=list(), "a"=1)
 
@@ -32,7 +29,7 @@ test_that("fails when item is not list:", {
     })
 
 
-test_that("Can distinguish empty and non-empty list", {
+test_that("can distinguish empty and non-empty list", {
     expect_true(is.empty(list()))
     expect_true(is.empty(NULL))
     expect_false(is.empty(list("a"=1, "b"=2)))

@@ -1,4 +1,4 @@
-test_that("Can render XML chunks in isolation", {
+test_that("can render XML chunks in isolation", {
     xml_chunks = config$xml
     parameters = config$defaults
     expected = processed
@@ -6,7 +6,7 @@ test_that("Can render XML chunks in isolation", {
     })
 
 
-test_that("Can parse simple config", {
+test_that("can parse simple config", {
     config_file = write_to_temp(list2toml(config))
     expected = list(
         "data" = processed,
@@ -18,7 +18,7 @@ test_that("Can parse simple config", {
     })
 
 
-test_that("Can parse config with a subtemplates", {
+test_that("can parse config with a subtemplates", {
     # set up subtemplate
     subtemplate = empty_config
     subtemplate$xml[["chunk_three"]] = "This is chunk {{three}}"
@@ -68,7 +68,7 @@ test_that("XML chunks with the same name do merge", {
     })
 
 
-test_that("Additional parameters overwrite defaults", {
+test_that("additional parameters overwrite defaults", {
     config_file = write_to_temp(list2toml(config))
 
     expected = list(

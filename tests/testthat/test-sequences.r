@@ -1,6 +1,3 @@
-context("Processing alignment files")
-
-
 sequences_xml = paste0(
     "<data id=\"alignment\" dataType=\"nucleotide\">\n",
     "    <sequence taxon=\"seq1\">ACTGACTG</sequence>\n",
@@ -24,7 +21,7 @@ sequences_xml_random = paste0(
 
 
 
-test_that("Guessing datatype and values from data", {
+test_that("guessing datatype and values from data works", {
     expect_identical( random_sequences(1,1,1), list("seq_1"="1"))
     expect_identical( random_sequences(2,2,10), list("seq_1"=strrep(2, 10), "seq_2"=strrep(2, 10)) )
     expect_equal( guess_number_of_states(random_sequences(1)), 1)
@@ -41,13 +38,13 @@ test_that("Guessing datatype and values from data", {
     })
 
 
-test_that("Can convert sequences to xml", {
+test_that("can convert sequences to xml", {
     expect_identical(sequences2xml(sequences), sequences_xml)
     expect_identical(sequences2xml(random_sequences(1, 3, 1)), sequences_xml_random)
     })
 
 
-test_that("Data id is replaced by input parameter", {
+test_that("data id is replaced by input parameter", {
     expect_identical(get_alignment_id(sequences2xml(sequences)), "alignment")
     expect_identical(get_alignment_id(sequences2xml(sequences, list(alignment_id="foo"))), "foo")
     })

@@ -13,14 +13,3 @@ write_to_temp = function(text){
     writeLines(text, tempfile)
     tempfile
     }
-
-
-#' Process template, return content of the output and clean after itself
-get_template = function(
-    template, config=NULL, alignment=NULL, format=NULL, parameters=NULL
-    ){
-    temp = tempfile()
-    on.exit(unlink(temp))
-    process_template(template, temp, config, alignment, format, parameters)
-    readLines(temp)
-    }

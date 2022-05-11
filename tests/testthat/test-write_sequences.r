@@ -11,7 +11,7 @@ md5sum = function(files){
     }
 
 
-test_that("Written fasta is identical to test file", {
+test_that("written fasta is identical to test file", {
     fasta = tempfile(fileext = ".fasta")
     on.exit(unlink(fasta), add=TRUE)
     write_fasta(sequences, fasta, nchar=4)
@@ -20,7 +20,7 @@ test_that("Written fasta is identical to test file", {
     })
 
 
-test_that("Written nexus is identical to test file", {
+test_that("written nexus is identical to test file", {
     nexus = tempfile(fileext = ".nex")
     on.exit(unlink(nexus), add=TRUE)
     write_nexus(sequences, nexus, missing="?", gap="-")
@@ -29,7 +29,7 @@ test_that("Written nexus is identical to test file", {
     })
 
 
-test_that("Writting and reading fasta is identical to input", {
+test_that("writting and reading fasta is identical to input", {
     fasta = tempfile(fileext = ".fasta")
     on.exit(unlink(fasta), add=TRUE)
     write_fasta(sequences, fasta, nchar=4)
@@ -39,7 +39,7 @@ test_that("Writting and reading fasta is identical to input", {
     })
 
 
-test_that("Writting and reading nexus is identical to input", {
+test_that("writting and reading nexus is identical to input", {
     nexus = tempfile(fileext = ".nex")
     on.exit(unlink(nexus), add=TRUE)
     write_nexus(sequences, nexus, missing="?", gap="-")
@@ -64,7 +64,7 @@ test_that("write_sequences selects the correct format", {
     })
 
 
-test_that("Throws an error if unsupported file format is provided", {
+test_that("throws an error if unsupported file format is provided", {
     expect_error(write_sequences(sequences, format=""), "Unsupported format: ")
     expect_error(write_sequences(sequences, format="blargh"), "Unsupported format: blargh")
     expect_error(write_sequences(sequences, "test."), "Unrecognized extension: ")

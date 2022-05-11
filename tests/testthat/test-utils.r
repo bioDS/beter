@@ -1,7 +1,4 @@
-context("Test various utility functions")
-
-
-test_that("Can find {{ mustache }} tags", {
+test_that("can find {{ mustache }} tags", {
     test_toml = file.path("test_files", "test.toml")
     test_xml = file.path("test_files", "test.xml")
     test_other = tempfile(fileext=".other")
@@ -14,7 +11,7 @@ test_that("Can find {{ mustache }} tags", {
     })
 
 
-test_that("settmpdir is working temporaly and not pernamently", {
+test_that("settmpdir is working temporarily and not pernamently", {
     wd = getwd()
     tmpdir = tempdir()
     test_settmpdir = function(){
