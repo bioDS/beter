@@ -1,0 +1,95 @@
+---
+title: "Understanding configuration files"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{config}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+One problem with BEAST2 is the structure of it's XMLs.
+For example, typical BEAST2 XML consist of following parts:
+
+```
+<sequences>
+<parameters>
+<priors>
+<population model>
+<substitution model>
+<clock model>
+<operators>
+<loggers>
+```
+
+In theory, you should be able to easily switch between various population, substitution models.
+In practice, this is not easy at all as changing a substitution model means editing parameters, operators and loggers.
+There is just no easy way to go around this other than developing a tool that takes inputs and tries to transform them into BEAST2 XMLs.
+
+In essence, this is exactly what **beter** does by creating templates out of XMLs together with configs.
+
+## What is config?
+Configs are beter configuration files, partners to the XML templates.
+For human readability, instead of XML, beter configs are written in the [TOML language](https://toml.io/), and they consist of three parts: `xml`, `templates` and `defaults`.
+A sample config might look like this:
+
+```
+[xml]
+operators = """
+        <operator id='uniform' spec='Uniform' weight="{{tree_weight}}" tree="@tree"/>
+        """
+
+[templates]
+clock_model = "clock_strict.toml"
+
+[defaults]
+chain_length = 1e5
+tree_weight = 10
+```
+
+The purpose of beter configs is to store default values of parameters, instead of having to pass them to the `process_template` function, and to store chunks of XML code.
+Through these templates, the BEAST2 XML can be chopped into individual models (if required), which can be defined in a single file, together with their parameters, priors, operators and loggers.
+Using these templates, analysis can be then easily redefined as just selection of particular models, like in the above example, where the `clock_model` is specified to a config file that specifies the model and all its particulars.
+
+## Parsing rules
+`beter` configs consist of three parts, the `[xml]` block, `[templates]` block and `[defaults]` block. Each block consist of series of items, which should be of form `name = value`.
+
+`[xml]` block should be used for XML chunks, you can use three quotation marks `"""` for multi-line value. These chunks can contain tags `"{{...}}"` and are evaluated first before they are placed in the template.
+
+`[defaults]` are used as a default values for tags, both in the XML template and XML chunks contained in the config. They can be overriden during the `process_template` call by passing a list of values using the `parameter` variable:
+
+```{r, eval=FALSE}
+# default of "chain_length" was set to 1e5 
+pars = list("chain_length" = 2e5)
+beter::process_template(template, output, config, parameters=parameters)
+# template is evaluated with "chain_length" set to 2e5
+```
+
+Finally, the `[templates]` block allow using additional subconfigs. Here the parsing gets little difficult. When using subconfigs, the behaviour of the `[xml]` and `[defaults]` block differs:
+
+* `[defaults]` in the subconfig with the same name are replaced (overriden) by `[defaults]` in the config (and xml chunks are evaluated in this context)
+* `[xml]` in the subconfig are *added* to `[xml]` in the config
+
+This allows each subconfig to define chunks such as `loggers`, `operators` and `parameters` for their particular model, which are then collected and inserted in the XML template. To insert these collected values (or in fact, any vector, such as `numbers = [1, 2, 3, 4, 5]`, you need to use a special form of a tag in your XML template: `{{#name}}{{{.}}}{{/name}}`. For example, for the vector of numbers, we would use
+
+```
+{{#numbers}}
+    {{{.}}}
+{{/numbers}}
+```
+which would result in:
+
+```
+    1
+    2
+    3
+    4
+    5
+```
+after translation.

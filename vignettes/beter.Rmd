@@ -1,0 +1,116 @@
+---
+title: "Introduction to the *beter* package"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{beter}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+Create [BEAST2](https://www.beast2.org/) XML files from individual XML chunks using [{{ moustache }}](https://mustache.github.io/) templating system and [TOML](https://github.com/toml-lang/toml) configuration files.
+
+The `beter` package provides you with tools to make XML templates and subtemplates, which you can parametrize with `{{ mustache }}` tags in a clean TOML config.
+
+The `beter` package allows you to:
+* write XML templates with `{{ mustache }}` tags
+* `{{ mustache }}` tags are replaced by values in TOML config
+* structure your TOML config with additional subconfigs
+
+
+## Installation
+
+Currently, `beter` is available only on github. To install from github, type:
+```r
+devtools::install_github("biods/beter")
+```
+
+## Rationale
+
+### Building BEAST2 XML is tedious
+[BEAST2](https://www.beast2.org/) is a great tool for phylogenetic analysis.
+It contains a large amount of models, with even more models available through BEAST2 packages.
+To run analysis with BEAST2, you have to create an XML file that in detail specifies which kind of models are you using, together with their parameters, priors, operators and so on.
+This is tedious to do by hand so and BEAST2 provides a GUI tool for this called BEAUTi.
+However, not all BEAST2 packages contain a BEAUTi templates, required for the BEAUTi GUI.
+And even when they do, not all configurations are available through GUI and manual editing is required.
+When you need to run multiple analyses, have a data pipeline, or just want to do reproducible research, GUI tool is not ideal and there is a need to build XMLs programatically.
+
+### Current tools are insufficient
+
+[Multiple tools](http://www.beast2.org/2018/03/09/10-ways-to-generate-beast-xml.html) already exist for this purpose, namely [BeastMaster](http://phylo.wikidot.com/beastmaster), [beastling](https://beastling.readthedocs.io) and [babette](https://github.com/ropensci/babette).
+And they work great if you need to run one of the supported analysis.
+But when you run some brand new model or if you are developing new BEAST2 package, you will have to edit your XML manually again or roll your own sollution involving regular expressions.
+
+### beter provides flexibility 
+
+In the end, no tool is future proof to support new packages and editing XMLs manually is required.
+The `beter` package is here for when you are forced to edit XMLs, but don't want to edit them again and again.
+
+In short, the `beter` package allows you to:
+* write XML templates with `{{ mustache }}` tags
+* `{{ mustache }}` tags are replaced by values in TOML config
+* structure your TOML config with additional subconfigs
+
+## Usage
+Often, we need to run the same file with a few changes:
+
+* new sequences are added
+* bump up the number of generations to increase ESS
+
+Start with taking a functional XML, you can create it with BEAUTi or take a provided example XML from BEAST package creators.
+Here we have `primates.xml`.
+```xml
+<!--primates.xml-->
+<beast>
+...
+<data id="primates" dataType="nucleotide">
+    <sequence taxon="Tarsius_syrichta">
+        AAGTTTCATTGGAGCCACCACTCTTATAATTGCCCATGGCCTCACCTCCTCCCTATTAT
+        TTTGCCTAGCAAATACAAACTACGAACGAGTCCACAGTCGAACAATAGCACTAGCCCGT
+        GGCCTTCAAACCCTATTACCTCTTGCAGCAACATGATGACTCCTCGCCAGCTTAACCAA
+        CCTGGCCCTTCCCCCAACAATTAATTTAATCGGTGAACTGTCCGTAATAATAGCAGCAT
+    </sequence>
+...
+</data>
+...
+<run spec="MCMC" id="mcmc" chainLength="5000000" preBurnin="50000">
+...
+</beast>
+```
+To create `beter` template, simply replace elements with `{{ mustache }}` tags:
+
+```xml
+<!--template.xml-->
+<beast>
+{{{sequences}}
+...
+<run spec="MCMC" id="mcmc" chainLength="{{chain_length}}" preBurnin="50000">
+...
+</beast>
+```
+
+You also should replace every occurence of the `idref='primates'` and `@primates` with `idref='{{alignment_id}}'` and `@{{alignment_id}}` as various models in BEAST2 refer to this
+alignment data block.
+
+Now by running:
+```r
+beter::process_template(
+    "template.xml", "primates.xml",
+    alignment = "primates.fasta",
+    parameters = list("chain_length"=5*10^6)
+    )
+```
+
+`beter` will replace the `{{chain_length}}` with the value specified in the `parameters` argument.
+The `{{{sequences}}}` tags is special and will be replaced by the data block of sequences.
+The `{{alignment_id}}` tag is also special variable, `alginment_id` will be constructed out of the sequence file passed to the `alignment` parameter (in this case `primates.fasta`).
+This allows to programatically create BEAST2 XMLs out of `beter` templates.
+The difference between two `{{` and three `{{{` compound brackets is that a `{{{` does not interpret XML tags parsed to it, while `{{` tries to escape any special characters.
