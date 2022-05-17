@@ -2,7 +2,7 @@
 title: "Understanding configuration files"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{config}
+  %\VignetteIndexEntry{Understanding configuration files}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

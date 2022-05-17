@@ -1,8 +1,8 @@
 ---
-title: "Introduction to the *beter* package"
+title: "Introduction to beter"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{beter}
+  %\VignetteIndexEntry{Introduction to beter}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
