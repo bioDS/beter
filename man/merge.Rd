@@ -23,3 +23,4 @@ that named items shared in both lists are added concatenated. \code{merge} is no
 merging and named items from list in the first argument will be replaced by items from
 the list in the second argument.
 }
+\keyword{internal}

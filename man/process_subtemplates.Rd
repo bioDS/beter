@@ -14,3 +14,4 @@ process_subtemplates(subtemplates, defaults)
 \description{
 Process TOML subtemplates/subconfigs in the templates block
 }
+\keyword{internal}

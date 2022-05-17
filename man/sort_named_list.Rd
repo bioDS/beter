@@ -17,3 +17,4 @@ sorted list
 \description{
 Reorder list according to its names.
 }
+\keyword{internal}

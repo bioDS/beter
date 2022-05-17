@@ -17,4 +17,6 @@ Recursively create directory. If directory exists, do nothing.
 \examples{
 tmpdir = tempdir()
 beter:::mkdir(tmpdir) # dir already exists, no error or warning is reported
+
 }
+\keyword{internal}

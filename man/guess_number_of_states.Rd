@@ -15,3 +15,4 @@ number of states
 \description{
 Guess the number of states in sequences
 }
+\keyword{internal}

@@ -8,6 +8,8 @@
 #' @param list1 a list
 #' @param list2 a list
 #' @return merged list
+#'
+#' @keywords internal
 merge = function(list1, list2){
     if( !( (is.list(list1) || is.null(list1)) && (is.list(list2) || is.null(list2)) ) )
         stop("Both elements must be lists or NULL")

@@ -19,3 +19,4 @@ Guess data type from sequences. Currently two data types are supported:
      \item standard
  }
 }
+\keyword{internal}

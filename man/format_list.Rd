@@ -20,3 +20,4 @@ formatted list
 Recursively converts numeric elements in list to string using the `format` function.
 This is done to guarantee that scientific notation is not used.
 }
+\keyword{internal}

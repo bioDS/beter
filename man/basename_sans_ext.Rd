@@ -13,8 +13,10 @@ basename_sans_ext(path)
 basename without extension
 }
 \description{
-Combination of \code{\link{basename}} and \code{link{file_path_sans_ext}}.
+Combination of [base::basename()] and [tools::file_path_sans_ext()].
 }
 \examples{
 beter:::basename_sans_ext("folder/file.extension") # returns "file"
+
 }
+\keyword{internal}

@@ -60,6 +60,8 @@ find_tags_str = function(template){
 #'     }
 #' test() # should print dir
 #' print(getwd()) # back to normal
+#'
+#' @keywords internal
 settmpdir = function(dir){
     envir = parent.frame()
     envir$oldwd = getwd()
@@ -76,6 +78,8 @@ settmpdir = function(dir){
 #' @examples
 #' tmpdir = tempdir()
 #' beter:::mkdir(tmpdir) # dir already exists, no error or warning is reported
+#'
+#' @keywords internal
 mkdir = function(dir){
     if(!dir.exists(dir))
         dir.create(dir, recursive=TRUE)
@@ -93,6 +97,8 @@ mkdir = function(dir){
 #'
 #' @examples
 #' beter:::join("foo", NULL, NA, "", "bar") # "foo bar"
+#'
+#' @keywords internal
 join = function(..., sep=" ", collapse=NULL){
     args = list(...)
     args = rlist::list.clean(
@@ -106,13 +112,15 @@ join = function(..., sep=" ", collapse=NULL){
 
 #' Basename without extension
 #'
-#' Combination of \code{\link{basename}} and \code{link{file_path_sans_ext}}.
+#' Combination of [base::basename()] and [tools::file_path_sans_ext()].
 #'
 #' @param path a filepath
 #' @return basename without extension
 #'
 #' @examples
 #' beter:::basename_sans_ext("folder/file.extension") # returns "file"
+#'
+#' @keywords internal
 basename_sans_ext = function(path){
     basename(tools::file_path_sans_ext(path))
     }

@@ -21,4 +21,6 @@ Similar as paste, but ignores NULL, NA and empty strings.
 }
 \examples{
 beter:::join("foo", NULL, NA, "", "bar") # "foo bar"
+
 }
+\keyword{internal}

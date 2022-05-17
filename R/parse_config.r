@@ -36,6 +36,8 @@ parse_config = function(file, defaults=NULL){
 #'
 #' @param subtemplates list of TOML subtemplates from the templates block
 #' @param defaults parameters
+#'
+#' @keywords internal
 process_subtemplates = function(subtemplates, defaults){  
     data = list()
     for(subtemplate in subtemplates){
@@ -51,6 +53,8 @@ process_subtemplates = function(subtemplates, defaults){
 #' @param xml_chunks list of strings with {{ moustache }} tags
 #' @param parameters parameters to substitute {{ moustache }} tags
 #' @return list of processed xml chunks
+#'
+#' @keywords internal
 process_xml_chunks = function(xml_chunks, parameters){
     if(!isTRUE(getOption("beter.scientific")))
         parameters = format_list(parameters)

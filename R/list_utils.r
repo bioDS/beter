@@ -2,6 +2,8 @@
 #'
 #' @param x a list
 #' @return true/false
+#'
+#' @keywords internal
 is.empty = function(x){
     is.null(x) || length(x) == 0
     }
@@ -13,6 +15,8 @@ is.empty = function(x){
 #' @param x a list
 #' @param decreasing logical. Should the sort be increasing or decreasing?
 #' @return sorted list
+#'
+#' @keywords internal
 sort_named_list = function(x, decreasing = FALSE){
     if(!is.list(x))
         stop("Object must be vector")
@@ -34,6 +38,8 @@ sort_named_list = function(x, decreasing = FALSE){
 #' @param scientific whether to keep or not the scientific notation
 #' @param trim suppress justifying values to right
 #' @return formatted list
+#'
+#' @keywords internal
 format_list = function(x, scientific=FALSE, trim=TRUE){
     if(length(x) == 0)
         return(x)

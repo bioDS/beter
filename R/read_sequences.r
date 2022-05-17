@@ -95,6 +95,8 @@ read_nexus = function(file){
 #'
 #' @param text part of sequence file parsed by a helper function
 #' @name read_sequences_helper
+#'
+#' @keywords internal
 NULL
 
 

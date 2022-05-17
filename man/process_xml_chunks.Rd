@@ -17,3 +17,4 @@ list of processed xml chunks
 \description{
 process xml chunks, replacing the {{ moustache }} tags with the parameters
 }
+\keyword{internal}

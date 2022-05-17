@@ -22,4 +22,6 @@ test = function(){
     }
 test() # should print dir
 print(getwd()) # back to normal
+
 }
+\keyword{internal}

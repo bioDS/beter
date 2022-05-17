@@ -17,3 +17,4 @@ parse_nexus_sequences(text)
 These functions are used internally when alignemnt is being read and processed. They tend to
 extract and proces sequences from particular part of text.
 }
+\keyword{internal}

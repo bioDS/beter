@@ -71,6 +71,8 @@ sequences2xml = function(sequences, data=list()){
 #'
 #' @param sequences list of strings
 #' @return datatype
+#'
+#' @keywords internal
 guess_datatype = function(sequences){
     chars = lapply(utils::head(sequences), substring, 1, 5)
     chars = paste0(unlist(chars), collapse="")
@@ -90,6 +92,8 @@ guess_datatype = function(sequences){
 #'
 #' @param sequences list of strings
 #' @return number of states
+#'
+#' @keywords internal
 guess_number_of_states = function(sequences){
     chars = lapply(sequences, function(x) unique(strsplit(x, "")[[1]]))
     chars = unique(unlist(chars))

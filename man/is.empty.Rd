@@ -15,3 +15,4 @@ true/false
 \description{
 Test whether list is null or empty
 }
+\keyword{internal}
