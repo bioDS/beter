@@ -1,0 +1,11 @@
+pandoc: 2.7.3
+pkgdown: 2.0.3
+pkgdown_sha: ~
+articles:
+  beter: beter.html
+  config: config.html
+last_built: 2022-05-17T01:51Z
+urls:
+  reference: https://biods.github.io/beter/reference
+  article: https://biods.github.io/beter/articles
+
