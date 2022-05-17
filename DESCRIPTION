@@ -10,6 +10,8 @@ Authors@R:
         )
 Description: Create BEAST2 XML files from individual XML chunks using {{ moustache }} templating system and TOML configuration files.
 License: MIT + file LICENSE
+URL: https://biods.github.io/beter/, https://github.com/biods/beter
+BugReports: https://github.com/biods/beter/issues
 Encoding: UTF-8
 LazyData: true
 Imports:
@@ -23,5 +25,5 @@ Suggests:
     testthat,
     knitr,
     rmarkdown
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.0
 VignetteBuilder: knitr

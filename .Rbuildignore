@@ -1,3 +1,8 @@
 ^LICENSE\.md$
 unfinished
 ^doc$
+^Meta$
+^_pkgdown\.yml$
+^pkgdown$
+^docs$
+^\.github$
