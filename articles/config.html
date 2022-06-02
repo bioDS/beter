@@ -111,6 +111,7 @@ tree_weight = 10</code></pre>
 <h2 id="parsing-rules">Parsing rules<a class="anchor" aria-label="anchor" href="#parsing-rules"></a>
 </h2>
 <p><code>beter</code> configs consist of three parts, the <code>[xml]</code> block, <code>[templates]</code> block and <code>[defaults]</code> block. Each block consist of series of items, which should be of form <code>name = value</code>.</p>
+<p>Character values need to be wrapped in quotation marks, numerical values should not be wrapped in quotation marks (<code>"10"</code> is treated as character type otherwise). You can use scientific notations for scientific notation. For more detailed description of TOML format, see [TOML webpage][<a href="https://toml.io/" class="external-link uri">https://toml.io/</a>).</p>
 <p><code>[xml]</code> block should be used for XML chunks, you can use three quotation marks <code>"""</code> for multi-line value. These chunks can contain tags <code>"{{...}}"</code> and are evaluated first before they are placed in the template.</p>
 <p><code>[defaults]</code> are used as a default values for tags, both in the XML template and XML chunks contained in the config. They can be overriden during the <code>process_template</code> call by passing a list of values using the <code>parameter</code> variable:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
