@@ -33,7 +33,7 @@ chain_length = 5000
 Now by running:
 ```r
 library(beter)
-process_template("template.xml", "config.toml", "result.xml")
+process_template("template.xml", "result.xml", "config.toml")
 ```
 the `{{chain_length}}` will get replaced by `5000`. Instead of replacing a number, you can insert whole
 XML chunks. This way you can programatically create templates with values and models you require.
