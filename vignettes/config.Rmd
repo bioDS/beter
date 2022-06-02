@@ -60,6 +60,8 @@ Using these templates, analysis can be then easily redefined as just selection o
 ## Parsing rules
 `beter` configs consist of three parts, the `[xml]` block, `[templates]` block and `[defaults]` block. Each block consist of series of items, which should be of form `name = value`.
 
+Character values need to be wrapped in quotation marks, numerical values should not be wrapped in quotation marks (`"10"` is treated as character type otherwise). You can use scientific notations for scientific notation. For more detailed description of TOML format, see [TOML webpage][https://toml.io/).
+
 `[xml]` block should be used for XML chunks, you can use three quotation marks `"""` for multi-line value. These chunks can contain tags `"{{...}}"` and are evaluated first before they are placed in the template.
 
 `[defaults]` are used as a default values for tags, both in the XML template and XML chunks contained in the config. They can be overriden during the `process_template` call by passing a list of values using the `parameter` variable:
